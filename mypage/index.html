@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<style type="text/css">
 	html, body {
-	overflow: hidden;
+	overflow-x: hidden;
 	}
 
 	@font-face {
@@ -76,6 +76,10 @@
 	opacity: 1;
 	}
 
+	.headera:hover {
+	text-decoration: none;
+	}
+
 	.headera:visited {
 	text-decoration: none;
 	font-family: Roboto Light;
@@ -94,7 +98,7 @@
 
 	#friendbutton {
 	position: absolute;
-	top: 230px;
+	top: 227px;
 	left: 15px;
 	width: 200px;
 	height: 30px;
@@ -109,14 +113,39 @@
 	#friendbutton:hover {
 	opacity: 0.9;
 	}
+	
+	.nounderline:hover {
+	text-decoration: none;
+	}
+	
+	.falsead {
+	position: absolute;
+	top: 335px;
+	left: 14px;
+	width: 145px;
+	}
+	
+	.falsead:hover + .closead {
+	transition-delay: .30s;
+	visibility: visible;
+	opacity: 0.5;
+	}
+	
+	.closead {
+	visibility: hidden;
+	opacity: 0;
+	transition: .30s ease-in-out;
+	}
+
+	.closead:hover {
+	opacity: 1;
+	visibility: visible;
+	}
 	</style>
 </head>
-<body onload="bodyload();" onresize="bodyload();">
+<body onload="bodyload();" onresize="bodyload();" style="background: #EDEEF0;">
 	<div id="header" style=
 	"position:absolute; top: 0px; left: 0px; background: #507299; height: 42px; width: 100%; z-index:1">
-	</div>
-	<div id="background" style=
-	"position:absolute; top: 0px; left: 0px; background: #EDEEF0; height: 100%; width: 100%; z-index:0">
 	</div>
 	<div id="container" style=
 	"position: absolute; width: 990px; height: 100%; top: 0px;">
@@ -131,7 +160,7 @@
 			"">Страница группы</a>
 		</div>
 		<div id="menupics" style=
-		"position: absolute; top: 63px; left: 14px; opacity: 0.9; z-index:1;">
+		"position: absolute; top: 63px; left: 15px; opacity: 0.75; z-index:1;">
 		<img src="media/menu_icon.png"></div><a class="buttona" href=
 		"https://vk.com/itorubarov">
 		<div class="button" style="top: 57px;">
@@ -191,11 +220,14 @@
 				Игры
 			</div>
 		</div></a>
-		<div style="position: absolute; top: 310px; left: 35px; width: 120px;">
-			<hr color="e3e5e8" size="1">
+		<div id="ad" class="falsead">
+			<a href="https://vk.com/write52852229" id="ad1"><img src="media/harold.jpg" style="position: absolute; top: 0px; left: 0px; width: 145px; border-radius: 2.5px;"></a>
+			<a href="https://vk.com/write52852229" id="ad2" class="nounderline" style="position: absolute; top: 95px; left: 0px; font-size: 12px; width: 145"><b>Услуги на любой основе</b></a>
+			<a href="https://vk.com/write52852229" id="ad3" class="nounderline" style="position: absolute; top: 114px; left: 0px; font-size: 12px; width: 145; color: black">Напишу сайт, научу испанскому языку, решу проблему по жизни</a>
 		</div>
+		<a href="javascript:hideads();" id="cross" class="closead"><img style="position: absolute; left: 164px; top: 321px;" src="media/cross.png"></img></a>
 		<div id="picframe" style=
-		"position: absolute; top: 57px; left: 174px; width: 230px; height: 275px; border-width: 1px; border-radius: 2.5px; border-color: #E3E4E8; border-style:solid; background: white;">
+		"position: absolute; top: 56px; left: 179px; width: 230px; height: 272px; border-width: 1px; border-radius: 2.5px; border-color: #E3E4E8; border-style:solid; background: white;">
 		<a href="https://vk.com/itorubarov"><img src="media/profilepic.jpg" style=
 		"position: absolute; top: 15px; left: 15px; width: 200px; height: 200px; border-radius: 2.5px; z-index: 2;"></a>
 		<a class="buttona" href=
@@ -207,8 +239,63 @@
 				</div>
 			</div></a>
 		</div>
+		<div id="groupsframe" style=
+		"position: absolute; top: 343px; left: 179px; width: 230px; height: 315px; border-width: 1px; border-radius: 2.5px; border-color: #E3E4E8; border-style:solid; background: white;">
+			<a class="nounderline" style="position: absolute; top: 12px; left: 15px; font-family: Roboto; font-size: 12.5px; color: black" href="https://vk.com/groups?id=52852229">Интересные страницы&nbsp;&nbsp;<div style="display: inline-block; color: gray;">50</div></a>
+			<table border="0" cellspacing="7" style="position: absolute; top: 36px; left: 7px;">
+				<tr>
+					<td valign="top" style="width: 44px">
+						<a href="https://vk.com/21jqofa"><img style="width: 40px; height: 40px; border-radius: 50%;" src="media/21jqofa.jpg"></img></a>
+					</td>
+					<td style="width: 136px">
+						<a style="font-size: 12.5px;" href="https://vk.com/21jqofa">че</a>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" style="width: 44px">
+						<a href="https://vk.com/meduzaproject"><img style="width: 40px; height: 40px; border-radius: 50%;" src="media/meduzaproject.jpg"></img></a>
+					</td>
+					<td style="width: 136px">
+						<a style="font-size: 12.5px;" href="https://vk.com/meduzaproject">Meduza</a>
+						<br>
+						<div style="display: inline-block; color: gray; font-size: 12px; font-family: Roboto">Но есть и хорошие новости</div>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" style="width: 44px">
+						<a href="https://vk.com/tjournal"><img style="width: 40px; height: 40px; border-radius: 50%;" src="media/tj.jpg"></img></a>
+					</td>
+					<td style="width: 136px">
+						<a style="font-size: 12.5px;" href="https://vk.com/tj">TJ</a>
+						<br>
+						<div style="display: inline-block; color: gray; font-size: 12px; font-family: Roboto">Коалиция за права боевых роботов</div>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" style="width: 44px">
+						<a href="https://vk.com/oldlentach"><img style="width: 40px; height: 40px; border-radius: 50%;" src="media/oldlentach.jpg"></img></a>
+					</td>
+					<td style="width: 136px">
+						<a style="font-size: 12.5px;" href="https://vk.com/oldlentach">Лентач</a>
+						<br>
+						<div style="display: inline-block; color: gray; font-size: 12px; font-family: Roboto">Пропаганда здравого смысла</div>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" style="width: 44px">
+						<a href="https://vk.com/baldhillspublic"><img style="width: 40px; height: 40px; border-radius: 50%;" src="media/baldhillspublic.jpg"></img></a>
+					</td>
+					<td style="width: 136px">
+						<a style="font-size: 12.5px;" href="https://vk.com/baldhillspublic">Paul Baldhill (public)</a>
+						<br>
+						<div style="display: inline-block; color: gray; font-size: 12px; font-family: Roboto">Главное хранилище музыки Paul Baldhill</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div style="position: absolute; top: 650px; height:15px;"><br></div>
 		<div id="infoframe" style=
-		"position: absolute; top: 57px; left: 419px; width: 550px; height: 416px; border-width: 1px; border-radius: 2.5px; border-color: #E3E4E8; border-style:solid; background: white;">
+		"position: absolute; top: 56px; left: 423px; width: 550px; height: 441px; border-width: 1px; border-radius: 2.5px; border-color: #E3E4E8; border-style:solid; background: white;">
 		<div style=
 		"position: absolute; top: 15px; left: 20px; color: black; font-family: Roboto; font-size: 19px;">
 			Иван Торубаров
@@ -302,7 +389,7 @@
 					<tr>
 						<td style="color: gray;" valign="top" width="165">Интересы:</td>
 						<td style="color: black;" width="345">Медиа и СМИ, музыка,
-						программирование, пишу сайтики</td>
+						программирование, пишу сайтики, люблю обсуждать всё что угодно</td>
 					</tr>
 					<tr style="height: 4px">
 						<td></td>
@@ -321,6 +408,12 @@
 		if (pageWidth > 991) document.getElementById("container").style.left = (
 			pageWidth - 990) / 2;
 		else document.getElementById("container").style.left = 0;
+	}
+	
+	function hideads() {
+		document.getElementById("ad1").innerHTML="";
+		document.getElementById("ad2").innerHTML="";
+		document.getElementById("ad3").innerHTML="";
 	}
 	
 	function getDimensions() {
