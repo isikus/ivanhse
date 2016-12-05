@@ -6,6 +6,6 @@ with open('intext.txt', 'r', encoding='utf-8') as f:
 	for line in lines:
 		total=total+1
 		a = line.split(' ')
-		if len(a)>4:
+		if len(a)>5:
 			with5=with5+1
 print(with5/total*100)
