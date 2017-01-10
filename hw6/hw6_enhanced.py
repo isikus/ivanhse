@@ -509,6 +509,7 @@ def punctuation(isend):
 def verbverse7():
 	global NEXTCASE
 	global NEXTGENDER
+	global NEEDSVERB	
 	s=""
 	sylls_here=0
 	opt = random.choice([1,2,3])
