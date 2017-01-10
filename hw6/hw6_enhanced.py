@@ -506,14 +506,14 @@ def punctuation(isend):
 		r = random.choice(marks)
 	return r
 
-def verbverse7():
+def verbverse7(islast):
 	global NEXTCASE
 	global NEXTGENDER
 	global NEEDSVERB	
 	s=""
 	sylls_here=0
 	opt = random.choice([1,2,3])
-	if opt == 1 or opt == 2:
+	if opt == 1 or opt == 2 or islast:
 		s=bigram(NEXTGENDER,1,4)
 		sylls_here=sylls(s)
 		s+=' '
@@ -640,10 +640,10 @@ def verse5c():
 	v+=punctuation("nonend")
 	return v	
 	
-def make_verse7():
+def make_verse7(islast):
 	global NEEDSVERB
 	if NEEDSVERB:
-		return verbverse7()
+		return verbverse7(islast)
 	verse = random.choice([1,2,3])
 	if verse == 1:
 		return verse7a()
@@ -667,10 +667,10 @@ def make_verse5():
 
 for n in range(random.randint(1,5)):
 	print(make_verse5())
-	print(make_verse7())
+	print(make_verse7(False))
 	print(make_verse5())
-	print(make_verse7())
-	lastv=make_verse7()
+	print(make_verse7(False))
+	lastv=make_verse7(True)
 	if lastv[-3:] == "...":
 		lastv = lastv[:-3]+punctuation("end")
 	else:
