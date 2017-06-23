@@ -49,26 +49,27 @@ def makebigrams(fileslist):
                 sentencesarr=[]
                 lines = infile.readlines()
                 for line in lines:
-                    if line[:4]=="<se>":
-                        sentencesarr.append([]);
+                    if re.search('<se>',line):
+                        sentencesarr.append([])
                     if line[:3]=="<w>":
                         sentencesarr[len(sentencesarr)-1].append(line)
                 for sentence in sentencesarr:
                     sentencestr=""
                     for line in sentence:
-                        sentencestr+=re.sub(r'</w>|</se>|\n|<w>|</ana>|<ana.*?>','',line)
+                        sentencestr+=re.sub(r'<.?w>|</se>|\n|<.p>|</ana>|<ana.*?>| ','',line)
                         sentencestr+=' '
                     buffarr=[]
                     prevA=False
                     for line in sentence:
-                        if re.search('A=',line) and re.search('gen',line):
+                        if re.search('A=',line) and re.search('gen',line) and not prevA:
                             buffarr.append(re.search('</ana>(.*?)</w>',line).group(1))
                             prevA=True
-                        elif re.search('S=',line) and re.search('gen',line) and prevA:
+                        elif re.search('S,',line) and re.search('gen',line) and prevA:
                             buffarr.append(re.search('</ana>(.*?)</w>',line).group(1))
-                            outfile.write(buffarr[0]+' '+buffarr[1]+'\t'+sentencestr+'\n')
+                            bigramstxt.write(buffarr[0]+' '+buffarr[1]+'\t'+sentencestr+'\n')
                             buffarr.pop()
                             buffarr.pop()
+                            prevA=False
                         else:
                             prevA=False
                             if len(buffarr)>0:
