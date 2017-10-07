@@ -76,14 +76,14 @@ def download_page(pageUrl,eid):
         os.mkdir(os.path.join('.','mystem-xml',year))
     if not os.path.isdir(os.path.join('.','mystem-xml',year,month)):
         os.mkdir(os.path.join('.','mystem-xml',year,month))
-    os.system(r"C:\mystem.exe --format xml " + os.path.abspath(os.path.join('.','plain',year,month,str(eid)+'stub.txt')) + ' ' + os.path.abspath(os.path.join('.','mystem-xml',year,month,str(eid)+'.xml')))
+    os.system(r"C:\mystem.exe -cid --format xml " + os.path.abspath(os.path.join('.','plain',year,month,str(eid)+'stub.txt')) + ' ' + os.path.abspath(os.path.join('.','mystem-xml',year,month,str(eid)+'.xml')))
     print('Mystem XML written in',os.path.join('.','mystem-xml',year,month,str(eid)+'.xml'))
 
     if not os.path.isdir(os.path.join('.','mystem-plain',year)):
         os.mkdir(os.path.join('.','mystem-plain',year))
     if not os.path.isdir(os.path.join('.','mystem-plain',year,month)):
         os.mkdir(os.path.join('.','mystem-plain',year,month))
-    os.system(r"C:\mystem.exe " + os.path.abspath(os.path.join('.','plain',year,month,str(eid)+'stub.txt')) + ' ' + os.path.abspath(os.path.join('.','mystem-plain',year,month,str(eid)+'.txt')))
+    os.system(r"C:\mystem.exe -cid " + os.path.abspath(os.path.join('.','plain',year,month,str(eid)+'stub.txt')) + ' ' + os.path.abspath(os.path.join('.','mystem-plain',year,month,str(eid)+'.txt')))
     print('Mystem plain written in',os.path.join('.','mystem-plain',year,month,str(eid)+'.txt'))
 
     os.remove(os.path.join('.','plain',year,month,str(eid)+'stub.txt'))
