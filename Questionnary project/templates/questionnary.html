@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Фразеологизмы - так можно?</title>
+	<style type="text/css">
+	h1, h2, h3, h4, h5, h6 {
+		text-align: center;
+		margin-bottom: 0;
+		padding-bottom: 0;
+	}
+	
+	td {
+		width: 15%;
+		text-align: center;
+	}
+	
+	input {
+		text-align: center;
+	}
+	
+	.tcontainer {
+		display: inline-block;
+		text-align: center;
+		width: 98%;
+	}
+	
+	#farewell {
+		width: 100%;
+		text-align: center;
+		display: none;
+		opacity: 0;
+	}
+	</style>
+	<script>
+	function fadein (object,mls) {
+		if (object.style.opacity) {
+			if (object.style.opacity>=1) return -1;
+		}
+		var i = 0;
+		var targetOpacity = 100;
+		object.style.visibility = "visible";
+		if (object.style.opacity==""||object.style.opacity==undefined) object.style.opacity=0;
+		if (object.style.MozOpacity==""||object.style.MozOpacity==undefined) object.style.MozOpacity=0;
+		if (object.style.filter=""||object.style.filter==undefined) object.style.filter = "progid:DXImageTransform.Microsoft.Alpha(opacity=0)";
+		var intervalID = setInterval(function() {
+			object.style.opacity = object.style.opacity * 1 + (targetOpacity/1000);
+			object.style.MozOpacity = object.style.MozOpacity * 1 + (targetOpacity/1000);
+			i = i + (targetOpacity/10);
+			var buff = 'progid:DXImageTransform.Microsoft.Alpha(opacity=';
+			buff += i;
+			buff += ')';
+			object.style.filter = buff;
+			if (i == targetOpacity) {
+				clearInterval(intervalID);
+			}
+		}, mls / 10);
+	};
+	
+		function watchCompletion() {
+			var IntervalID  = setInterval(function() {
+				var Names = {{ names | safe }};
+				var CompletedArr = [];
+				var AllFieldsCompleted = true;
+				
+				for (var i=0; i<Names.length; i++) {
+					var t = false;
+					var elements = document.getElementsByName(Names[i]);
+					Array.prototype.forEach.call(elements, function(item){
+						if (item.checked == true) t = true;
+					});
+					CompletedArr.push(t)
+				}
+				
+				for (var i=0; i<CompletedArr.length; i++) AllFieldsCompleted = AllFieldsCompleted * CompletedArr[i]
+				
+				if (AllFieldsCompleted) {
+					document.getElementById("farewell").style.display="block"
+					fadein(document.getElementById("farewell"),500);
+					clearInterval(IntervalID);
+				}
+			}, 100)
+		}
+	</script>
+</head>
+<body onload="watchCompletion()">
+<h1>Фразеологизмы - так можно?</h1>
+<br>
+<form action="/complete">
+{{ maindata | safe}}
+<div id="farewell">
+<h3 style="display: inline-block; width: 75%">Спасибо за прохождение опроса!</h3>
+<br>
+<br>
+<input type="submit" value="Далее"></input>
+</div>
+</form>
+</body>
+</html>

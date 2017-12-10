@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Фразеологизмы - так можно?</title>
+	<style type="text/css">
+	h1, h2, h3, h4, h5, h6 {
+		text-align: center;
+		margin-bottom: 0;
+		padding-bottom: 0;
+	}
+	
+	td {
+		width: 15%;
+		text-align: center;
+	}
+	
+	input {
+		text-align: center;
+	}
+	
+	.tcontainer {
+		display: inline-block;
+		text-align: center;
+		width: 98%;
+	}
+	
+	#farewell {
+		width: 100%;
+		text-align: center;
+		display: none;
+		opacity: 0;
+	}
+	</style>
+	<script>
+	function fadein (object,mls) {
+		if (object.style.opacity) {
+			if (object.style.opacity>=1) return -1;
+		}
+		var i = 0;
+		var targetOpacity = 100;
+		object.style.visibility = "visible";
+		if (object.style.opacity==""||object.style.opacity==undefined) object.style.opacity=0;
+		if (object.style.MozOpacity==""||object.style.MozOpacity==undefined) object.style.MozOpacity=0;
+		if (object.style.filter=""||object.style.filter==undefined) object.style.filter = "progid:DXImageTransform.Microsoft.Alpha(opacity=0)";
+		var intervalID = setInterval(function() {
+			object.style.opacity = object.style.opacity * 1 + (targetOpacity/1000);
+			object.style.MozOpacity = object.style.MozOpacity * 1 + (targetOpacity/1000);
+			i = i + (targetOpacity/10);
+			var buff = 'progid:DXImageTransform.Microsoft.Alpha(opacity=';
+			buff += i;
+			buff += ')';
+			object.style.filter = buff;
+			if (i == targetOpacity) {
+				clearInterval(intervalID);
+			}
+		}, mls / 10);
+	};
+	
+		function watchCompletion() {
+			var IntervalID  = setInterval(function() {
+				var AllFieldsCompleted = false;
+				var Sex, Age, Occupation, Birthplace, Residence = false;
+				var elements = document.getElementsByName('sex');
+				Array.prototype.forEach.call(elements, function(item){
+					if (item.checked == true) Sex = true;
+				});
+				elements = document.getElementsByName('age');
+				Array.prototype.forEach.call(elements, function(item){
+					if (item.value != "") Age = true;
+				});
+				elements = document.getElementsByName('occupation');
+				Array.prototype.forEach.call(elements, function(item){
+					if (item.value != "") Occupation = true;
+				});
+				elements = document.getElementsByName('birthplace');
+				Array.prototype.forEach.call(elements, function(item){
+					if (item.value != "") Birthplace = true;
+				});
+				elements = document.getElementsByName('residence');
+				Array.prototype.forEach.call(elements, function(item){
+					if (item.value != "") Residence = true;
+				});
+				AllFieldsCompleted = Sex*Age*Occupation*Birthplace*Residence;
+				if (AllFieldsCompleted) {
+					document.getElementById("farewell").style.display="block"
+					fadein(document.getElementById("farewell"),500);
+					clearInterval(IntervalID);
+				}
+			}, 100)
+		}
+	</script>
+</head>
+<body onload="watchCompletion()">
+<h1>Фразеологизмы - так можно?</h1>
+<br>
+<form action="/">
+<h3>Укажите ваш пол <font color="FF0000">*</font></h3>
+<div class="tcontainer">
+<table border="0" cellspacing="3" align="center">
+	<tr>
+		<td valign="top">
+			<input type="radio" name="sex" value="m"> мужчина
+		</td>
+		<td>
+			<input type="radio" name="sex" value="f"> женщина
+		</td>
+	</tr>
+</table>
+</div>
+<h3>Укажите ваш возраст <font color="FF0000">*</font></h3>
+<div>
+<table border="0" cellspacing="3" align="center">
+	<tr>
+		<td valign="top">
+			<input type="text" name="age" style="width: 5%;">
+		</td>
+	</tr>
+</table>
+</div>
+<h3>Укажите вашу область занятости (кем вы работаете?) <font color="FF0000">*</font></h3>
+<div>
+<table border="0" cellspacing="3" align="center">
+	<tr>
+		<td valign="top">
+			<input type="text" name="occupation" style="width: 35%;">
+		</td>
+	</tr>
+</table>
+</div>
+<h3>В каком городе вы родились? <font color="FF0000">*</font></h3>
+<div>
+<table border="0" cellspacing="3" align="center">
+	<tr>
+		<td valign="top">
+			<input type="text" name="birthplace" style="width: 35%;">
+		</td>
+	</tr>
+</table>
+</div>
+<h3>В каком городе вы прожили большую часть жизни? <font color="FF0000">*</font></h3>
+<div>
+<table border="0" cellspacing="3" align="center">
+	<tr>
+		<td valign="top">
+			<input type="text" name="residence" style="width: 35%;">
+		</td>
+	</tr>
+</table>
+</div>
+<div id="farewell">
+<h3 style="display: inline-block; width: 75%">Сейчас мы предложим вам набор из 30 предложений. Оцените, пожалуйста, по пятибалльной шкале, насколько возможно так сказать. Осторожно, в предложениях может встретиться нецензурная лексика.</h3>
+<br>
+<br>
+<input type="submit" value="Далее"></input>
+</div>
+</form>
+</body>
+</html>
