@@ -542,14 +542,15 @@ class Word:
 def Index():
 	Webpage = 'http://m.gismeteo.ru/weather/3253/'
 	html = urllib.request.urlopen(Webpage)
-	soup = BeautifulSoup(Html, 'html.parser')
+	soup = BeautifulSoup(html, 'html.parser')
 	status = soup.find_all("td", class_="weather__desc")[0].get_text()
 	temperature = soup.find_all("td", class_="weather__temp")[0].get_text()
 	if request.args:
 		strippedHTML = []
-		strippedHTML.append([request.args['wordform']])
+		strippedHTML.append(request.args['wordform'])
 		try:
-			translated = Word(0).Transform()
+			t = Word(0)
+			translated = t.Transform()
 		except:
 			translated = 'ошибка!'
 		return render_template('index.html', result = 'Результат: '+translated, status = status, temperature = temperature)
