@@ -16,7 +16,7 @@ def GetText(urlin):
 	for table in soup.find_all('table'):
 		if 'style' in table.attrs:
 			if table['style'] == 'border:1px dotted;border-color:#999999;':
-				raw = re.sub('<td></td>',' ',str(table))
+				raw = re.sub('<td></td>','INSTAUNCONDDEL',str(table))
 				s = BeautifulSoup(raw, 'html.parser')
 				T = s.get_text()
 				T = T.encode('utf8')
@@ -28,9 +28,13 @@ def GetText(urlin):
 				Ret = {}
 				for i in range(len(T)):
 					if i>6:
-						splitted = T[i].split(' ')
-						if len(splitted)>1 and splitted[0] not in Ret:
-							Ret[splitted[0].lower()] = splitted[1].lower()
+						splitted = T[i].split('INSTAUNCONDDEL')
+						if len(splitted)>1:
+							splitted_key = splitted[0].split(' ')
+							splitted_value = splitted[1].split(' ')
+							if len(splitted_key) == 1 and splitted_key[0] not in Ret:
+								Ret[splitted_key[0].lower()] = splitted_value[0].lower()
+				print(Ret)
 				return Ret
 
 def buildJSON():
