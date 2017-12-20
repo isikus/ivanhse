@@ -6,7 +6,7 @@ import urllib
 from pymystem3 import Mystem
 import pymorphy2
 
-# from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 
 from flask import Flask
 from flask import render_template
@@ -540,12 +540,20 @@ class Word:
 
 @app.route('/')
 def Index():
-	skopje = ''
+	Webpage = 'http://m.gismeteo.ru/weather/3253/'
+	html = urllib.request.urlopen(Webpage)
+	soup = BeautifulSoup(Html, 'html.parser')
+	status = soup.find_all("td", class_="weather__desc")[0].get_text()
+	temperature = soup.find_all("td", class_="weather__temp")[0].get_text()
 	if request.args:
-		strippedHTML = [request.args['wordform']]
-		translated = Word(0).Transform()
-		return render_template('index.html', skopje = skopje, translated = translated)
-	return render_template('index.html', skopje = skopje, translated = '')
+		strippedHTML = []
+		strippedHTML.append([request.args['wordform']])
+		try:
+			translated = Word(0).Transform()
+		except:
+			translated = 'ошибка!'
+		return render_template('index.html', result = 'Результат: '+translated, status = status, temperature = temperature)
+	return render_template('index.html', result = '', status = status, temperature = temperature)
 
 @app.route('/webpage')
 def TransliterateWebpage():

@@ -1,0 +1,78 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title>Дополнительное задание</title>
+    <meta charset="utf-8">
+	<style type="text/css">
+		html, body {
+		overflow: hidden;
+		}
+		
+		.outer {
+			display: table;
+			position: absolute;
+			height: 100%;
+			width: 100%;
+		}
+		.middle {
+			display: table-cell;
+			vertical-align: middle;
+		}
+		.inner {
+			margin-left: auto;
+			margin-right: auto; 
+			width: 100%;
+			text-align: center;
+			font-size: 300%;
+		}
+	</style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css" >
+    <link rel="stylesheet" href="css/manual.css" >
+    <script src="js/respond.min.js"></script>
+</head>
+
+<body>
+<!-- JS код -->
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<nav class="navbar navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="/">Главная</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/webpage">Т. Журналъ</a></li>
+        <li><a href="/test">Тест</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="outer">
+<div class="middle">
+<div class="inner">
+<div class="col-xs-12">
+<form action="/">
+<div style="text-align: center">Введите слово для транслитерации:</div>
+<input type="text" name="birthplace" style="width:20%">
+<br>
+<div style="text-align: center">{{result}}.</div>
+<br>
+<div style="text-align: center">В Скопье сейчас {{condition}}, {{temperature}}.</div>
+<br>
+<input type="submit" value="Далее"></input>
+</div>
+</div>
+</div>
+</form>
+<footer class="container-fluid text-center">
+
+</footer>
+</body>
+</html>
