@@ -543,7 +543,7 @@ def Index():
 	Webpage = 'http://m.gismeteo.ru/weather/3253/'
 	html = urllib.request.urlopen(Webpage)
 	soup = BeautifulSoup(html, 'html.parser')
-	status = soup.find_all("td", class_="weather__desc")[0].get_text()
+	status = soup.find_all("td", class_="weather__desc")[0].get_text().lower()
 	temperature = soup.find_all("td", class_="weather__temp")[0].get_text()
 	if request.args:
 		while len(words)>0:
