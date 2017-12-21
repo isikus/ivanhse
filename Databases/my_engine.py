@@ -3,6 +3,10 @@ import os
 import sqlite3
 from sqlite3 import Error
 
+import matplotlib.pyplot as plt; plt.rcdefaults()
+import numpy as np
+import matplotlib.pyplot as plt
+
 
 def create_connection(db_file):
 	""" create a database connection to a SQLite database """
@@ -22,6 +26,31 @@ def getGlossesDict():
 			l = line.split(' — ')
 			D[l[0]] = l[1]
 	return D
+
+def countPoS():
+	conn = sqlite3.connect('db.sqlite')
+	cur = conn.cursor()
+	cur.execute("SELECT Glosses FROM Words")
+	Glosses = [gloss[0] for gloss in cur.fetchall()]
+	Dict = getGlossesDict()
+	for key in list(Dict.keys()):
+		Dict[key] = 0
+	for gloss in Glosses:
+		if gloss in Dict:
+			Dict[gloss] += 1
+	Glosses = sorted(list(Dict.keys()))
+	Quantity = [Dict[gloss] for gloss in Glosses]
+	
+	objects = set(Glosses)
+	y_pos = np.arange(len(objects))
+	 
+	plt.bar(y_pos, Quantity, align='center', alpha=0.5)
+	plt.xticks(y_pos, objects)
+	plt.ylabel('Количество')
+	plt.title('Части речи')
+	 
+	plt.show()
+	
 
 if __name__ == '__main__':
 	if os.path.isfile('db.sqlite'): os.remove('db.sqlite')
@@ -63,4 +92,5 @@ if __name__ == '__main__':
 			if entity in set(Glosses.keys()):
 				cur.execute("INSERT INTO WordsGlosses (Word_id, Gloss_id) VALUES (?, ?)", [i, IDs[entity]])
 	conn.commit()
-
+	
+	countPoS()
