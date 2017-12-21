@@ -546,11 +546,12 @@ def Index():
 	status = soup.find_all("td", class_="weather__desc")[0].get_text()
 	temperature = soup.find_all("td", class_="weather__temp")[0].get_text()
 	if request.args:
-		words = []
+		while len(words)>0:
+			words.pop()
 		words.append(request.args['wordform'])
 		try:
-			t = Word(0)
-			translated = t.Transform()
+		t = Word(0)
+		translated = t.Transform()
 		except:
 			translated = 'ошибка!'
 		return render_template('index.html', result = 'Результат: '+translated, status = status, temperature = temperature)
@@ -561,7 +562,8 @@ def TransliterateWebpage():
 	Webpage = 'https://tjournal.ru/'
 	html = urllib.request.urlopen(Webpage)
 	strippedHTML = re.split(r'([а-яёА-ЯЁ]+)',html.read().decode('utf-8'))
-	words = []
+	while len(words)>0:
+		words.pop()
 	for piece in strippedHTML:
 		if re.search(r'[а-яёА-ЯЁ]', piece):
 			words.append(piece)
