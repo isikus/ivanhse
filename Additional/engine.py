@@ -1,5 +1,5 @@
 import re
-import operator
+import random
 import json
 import urllib
 
@@ -598,6 +598,93 @@ def TransliterateWebpage():
 	FreqList = [(k, FreqDict[k]) for k in sorted(FreqDict, key=FreqDict.get, reverse=True)]
 	
 	return render_template("out.html", mostfrequent = FreqList[:10])
+
+@app.route('/test')
+def Test():
+	I = 0
+	TestWords = []
+	Answers = []
+	doref_forms = list(Dict.values())
+	for i in range(len(doref_forms)):
+		doref_forms[i]=re.sub(r'[,"]','',doref_forms[i])
+	Correct = 0
+	R = "Вы корректно ответили на <b>%s</b> из 10 вопросов, ваш результат - <b>%s</b>"
+	Tab = """<table class="table">
+    <thead>
+      <tr>
+        <th>Вы выбрали</th>
+        <th>Верно</th>
+      </tr>
+    </thead>
+    <tbody>"""
+	Test = """<div class="col-xs-4"></div>
+<div class="col-xs-2" style="text-align: center">
+<input type="submit" name="answer" class="btn btn-info" value="""
+	for i in range(10):
+		w = random.choice(doref_forms)
+		while not re.search(r'[еѣ]',w):
+			w = random.choice(doref_forms)
+		TestWords.append(re.sub(r'[,"]','',w))
+	WrongChoices = []
+	for word in TestWords:
+		if len(re.findall(r'е',word)) >= 1: WrongChoices.append(re.sub(r'е','ѣ',word))
+		else: WrongChoices.append(re.sub(r'ѣ','е',word))
+	left = TestWords[I]
+	right = WrongChoices[I]
+	if random.random() > 0.5:
+		right, left = left, right
+	Test += '"'+left+'"'
+	Test += """>
+</div>
+<div class="col-xs-2" style="text-align: center">
+<input type="submit" name="answer" class="btn btn-info" value="""
+	Test += '"'+right+'"'
+	Test += """>
+</div>
+<div class="col-xs-4"></div>"""
+	if request.args:
+		Answers.append(request.args['answer'])
+		y = False
+		if Answers[I] == TestWords[I]:
+			Correct += 1
+			y = True
+		Tab += """  
+      <tr class=
+	  """
+		if y:
+			Tab += '"success"'
+		else:
+			Tab += '"danger"'
+		Tab += """
+        <td>"""
+		Tab += Answers[I]
+		Tab += """</td>
+        <td>"""
+		Tab += TestWords[I]
+		Tab += """</td>
+      </tr>"""
+		if I % 10 == 9:
+			return render_template('test.html', test = "Тест завершён", results = R % (Correct, str(Correct*10)), table = Tab)
+		
+		left = TestWords[I]
+		right = WrongChoices[I]
+		if random.random() > 0.5:
+			right, left = left, right
+		Test = """<div class="col-xs-4"></div>
+<div class="col-xs-2" style="text-align: center">
+<input type="submit" name="answer" class="btn btn-info" value="""
+		Test += '"'+left+'"'
+		Test += """>
+	</div>
+	<div class="col-xs-2" style="text-align: center">
+	<input type="submit" name="answer" class="btn btn-info" value="""
+		Test += '"'+str(I)+'"'
+		Test += """>
+	</div>
+	<div class="col-xs-4"></div>"""
+		
+		return render_template('test.html', test = Test, results = '', table = '')
+	return render_template('test.html', test = Test, results = '', table = '')
 
 if __name__ == '__main__':
 	app.run(debug=True)
