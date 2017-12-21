@@ -550,8 +550,8 @@ def Index():
 			words.pop()
 		words.append(request.args['wordform'])
 		try:
-		t = Word(0)
-		translated = t.Transform()
+			t = Word(0)
+			translated = t.Transform()
 		except:
 			translated = 'ошибка!'
 		return render_template('index.html', result = 'Результат: '+translated, status = status, temperature = temperature)
