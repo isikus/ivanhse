@@ -1,0 +1,59 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title>Англо-тайский словарь</title>
+    <meta charset="utf-8">
+	<style type="text/css">
+		html, body {
+		overflow: hidden;
+		font-family: Arial;
+		font-family: Open Sans;
+		}
+		
+		h1, h2, h3, h4, h5, h6 {
+			text-align: center;
+			margin-bottom: 0;
+			padding-bottom: 0;
+		}
+		
+		.outer {
+			display: table;
+			position: absolute;
+			height: 100%;
+			width: 100%;
+		}
+		.middle {
+			display: inline-block;
+			width: 100%;
+			vertical-align: middle;
+		}
+		.inner {
+			margin-left: auto;
+			margin-right: auto; 
+			width: 100%;
+			text-align: center;
+			font-size: 120%;
+		}
+	</style>
+</head>
+
+<body>
+<div class="outer">
+<div class="middle">
+<div class="inner">
+<h1>English-Thai dictionary</h1>
+<form action="/">
+<div style="text-align: center">Enter word to translate:</div>
+<input type="text" name="wordform" style="width:20%; text-align: center">
+<br>
+<input type="submit" value="Translate"></input>
+</form>
+</br>
+<div style="text-align: center">{% for i, res in result %}
+        <div>{{ i }}. {{ res }}</div>
+    {% endfor %}</div>
+</div>
+</div>
+</div>
+</body>
+</html>
