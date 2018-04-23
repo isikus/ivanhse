@@ -29,7 +29,7 @@ def CountLength(textstring):
 	wtokens = textstring.split()
 	length = 0
 	for w in wtokens:
-		if re.search(r'\W',w): length += 1
+		if re.search(r'[\W\+]',w): length += 1
 	return length
 
 def get_posts():
@@ -131,8 +131,8 @@ def get_posts():
 									if "city" in user:
 										user_city_id = user["city"]["id"]
 										user_city_name = user["city"]["title"]
-										if "bday" in user:
-											if len(user["bday"])>=8:
+										if "bdate" in user:
+											if len(user["bdate"])>=8:
 												bday = datetime.datetime.strptime(user["bdate"],"%d.%m.%Y")
 												now = datetime.datetime.now()
 												user_age = relativedelta(now, bday).years
@@ -145,8 +145,8 @@ def get_posts():
 											cur.execute("INSERT INTO Comments (Comment, CommentLength, Author_id, AuthorCity, AuthorCity_id) VALUES (?, ?, ?, ?, ?)", [text, CountLength(text), int(userid), user_city_name, user_city_id])
 											conn.commit()
 									else:
-										if "bday" in user:
-											if len(user["bday"])>=8:
+										if "bdate" in user:
+											if len(user["bdate"])>=8:
 												bday = datetime.datetime.strptime(user["bdate"],"%d.%m.%Y")
 												now = datetime.datetime.now()
 												user_age = relativedelta(now, bday).years
@@ -192,8 +192,8 @@ def get_posts():
 								if "city" in user:
 									user_city_id = user["city"]["id"]
 									user_city_name = user["city"]["title"]
-									if "bday" in user:
-										if len(user["bday"])>=8:
+									if "bdate" in user:
+										if len(user["bdate"])>=8:
 											bday = datetime.datetime.strptime(user["bdate"],"%d.%m.%Y")
 											now = datetime.datetime.now()
 											user_age = relativedelta(now, bday).years
@@ -206,8 +206,8 @@ def get_posts():
 										cur.execute("INSERT INTO Comments (Comment, CommentLength, Author_id, AuthorCity, AuthorCity_id) VALUES (?, ?, ?, ?, ?)", [text, CountLength(text), int(userid), user_city_name, user_city_id])
 										conn.commit()
 								else:
-									if "bday" in user:
-										if len(user["bday"])>=8:
+									if "bdate" in user:
+										if len(user["bdate"])>=8:
 											bday = datetime.datetime.strptime(user["bdate"],"%d.%m.%Y")
 											now = datetime.datetime.now()
 											user_age = relativedelta(now, bday).years
@@ -294,8 +294,8 @@ def get_posts():
 								if "city" in user:
 									user_city_id = user["city"]["id"]
 									user_city_name = user["city"]["title"]
-									if "bday" in user:
-										if len(user["bday"])>=8:
+									if "bdate" in user:
+										if len(user["bdate"])>=8:
 											bday = datetime.datetime.strptime(user["bdate"],"%d.%m.%Y")
 											now = datetime.datetime.now()
 											user_age = relativedelta(now, bday).years
@@ -308,8 +308,8 @@ def get_posts():
 										cur.execute("INSERT INTO Comments (Comment, CommentLength, Author_id, AuthorCity, AuthorCity_id) VALUES (?, ?, ?, ?, ?)", [text, CountLength(text), int(userid), user_city_name, user_city_id])
 										conn.commit()
 								else:
-									if "bday" in user:
-										if len(user["bday"])>=8:
+									if "bdate" in user:
+										if len(user["bdate"])>=8:
 											bday = datetime.datetime.strptime(user["bdate"],"%d.%m.%Y")
 											now = datetime.datetime.now()
 											user_age = relativedelta(now, bday).years
@@ -355,8 +355,8 @@ def get_posts():
 							if "city" in user:
 								user_city_id = user["city"]["id"]
 								user_city_name = user["city"]["title"]
-								if "bday" in user:
-									if len(user["bday"])>=8:
+								if "bdate" in user:
+									if len(user["bdate"])>=8:
 										bday = datetime.datetime.strptime(user["bdate"],"%d.%m.%Y")
 										now = datetime.datetime.now()
 										user_age = relativedelta(now, bday).years
@@ -369,8 +369,8 @@ def get_posts():
 									cur.execute("INSERT INTO Comments (Comment, CommentLength, Author_id, AuthorCity, AuthorCity_id) VALUES (?, ?, ?, ?, ?)", [text, CountLength(text), int(userid), user_city_name, user_city_id])
 									conn.commit()
 							else:
-								if "bday" in user:
-									if len(user["bday"])>=8:
+								if "bdate" in user:
+									if len(user["bdate"])>=8:
 										bday = datetime.datetime.strptime(user["bdate"],"%d.%m.%Y")
 										now = datetime.datetime.now()
 										user_age = relativedelta(now, bday).years
@@ -454,44 +454,52 @@ def AccountThisMess(public_id):
 
 	# Plot for post/comment length interrelation
 	Length = sorted(list(LengthDict.keys()))
-	CommsLens = [length/LengthDict[length] for length in Length if LengthDict[length] != 0]
+	CommsLens = [LengthDict[length] for length in Length if LengthDict[length] != 0]
 	Length = [l for l in Length if LengthDict[l] != 0]
 	
-	objects = set(Length)
+	objects = Length
 	y_pos = np.arange(len(objects))
-	 
+	
+	plt.figure(figsize=(15,7))
 	plt.plot(y_pos, CommsLens)
 	plt.xticks(y_pos, objects)
-	plt.ylabel('длина поста/длина комментария')
+	plt.xlabel('длина поста')
+	plt.ylabel('средняя длина комментария')
 	plt.title('Отношение длины поста к длине комментария')
 	 
 	plt.show()
 
 	# Same for age
-	Ages = sorted(list(AgesDict.keys()))
+	Ages = [Age for Age in list(AgesDict.keys()) if Age is not None]
+	Ages = sorted(Ages)
 	AgesLens = [AgesDict[age] for age in Ages]
 	
-	objects = set(Ages)
+	objects = Ages
 	y_pos = np.arange(len(objects))
-	 
+	
+	plt.figure(figsize=(15,7))
 	plt.plot(y_pos, AgesLens)
 	plt.xticks(y_pos, objects)
-	plt.ylabel('Средняя длина комментария')
-	plt.title('Возраст')
+	plt.xlabel('возраст')
+	plt.ylabel('средняя длина комментария')
+	plt.title('Отношение возраста к средней длине комментария')
 	 
 	plt.show()
 		
 	# Bars for cities
-	Cities = sorted(list(CitiesDict.keys()))
+	Cities = [City for City in list(CitiesDict.keys()) if City is not None and City != ""]
+	Cities = sorted(Cities)
 	CitiesLens = [CitiesDict[city] for city in Cities]
 	
-	objects = set(Cities)
+	objects = Cities
 	y_pos = np.arange(len(objects))
-	 
+	
+	plt.figure(figsize=(15,7))
 	plt.bar(y_pos, CitiesLens, align='center', alpha=0.5)
-	plt.xticks(y_pos, objects)
-	plt.ylabel('Средняя длина комментария')
-	plt.title('Место жительства')
+	plt.xticks(y_pos, objects, rotation=90)
+	plt.xlabel('место жительства')
+	plt.ylabel('средняя длина комментария')
+	plt.title('Отношение места жительства к средней длине комментария')
 	 
 	plt.show()
 	
