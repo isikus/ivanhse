@@ -29,7 +29,7 @@ def CountLength(textstring):
 	wtokens = textstring.split()
 	length = 0
 	for w in wtokens:
-		if re.search(r'[\W\+]',w): length += 1
+		if re.search(r'[\w\+]',w): length += 1
 	return length
 
 def get_posts():
