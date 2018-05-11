@@ -2,6 +2,7 @@ import json
 import requests
 import re
 import pymorphy2
+from random import randint
 
 from bs4 import BeautifulSoup
 
@@ -32,7 +33,7 @@ def rusvectores_get(keyword,word):
 		araneum_dict = json.loads(raw_json)
 		similarities_list = list(araneum_dict[keyword][list(araneum_dict[keyword].keys())[0]].keys())
 	except Exception as e:
-		print('Exception caught: '+e)
+		print('Exception caught: '+str(e))
 		pass
 	return similarities_list
 
@@ -75,12 +76,12 @@ def synonims(word):
 			descendant_string = pretext.next_sibling.next_sibling.get_text()
 			descendants_list = descendant_string.split('\n')
 	except Exception as e:
-		print('Exception caught: '+e)
+		print('Exception caught: '+str(e))
 		pass
 	return synonims_dictionary_list_for_word
 
 def makedict():
-	with open ('Dictionary.txt', 'r', encoding='utf-8') as D:
+	with open ('./Dictionary.txt', 'r', encoding='utf-8') as D:
 		Dictionary = D.readlines()
 	return Dictionary
 
@@ -98,11 +99,11 @@ def is_descendant(possibleChild,possibleParent):
 			if possibleChild.lower() in descendants_list:
 				BoolForDescenancyIfSameRoot = True
 	except Exception as e:
-		print('Exception caught: '+e)
+		print('Exception caught: '+str(e))
 		pass
-	
+
 	# TRY Sideways:
-	
+
 	Webpage = 'http://wordroot.ru/'+possibleChild.lower()
 	try:
 		html = requests.get(Webpage).text
@@ -115,9 +116,9 @@ def is_descendant(possibleChild,possibleParent):
 			if possibleParent.lower() in descendants_list:
 				BoolForDescenancyIfSameRoot = True
 	except Exception as e:
-		print('Exception caught: '+e)
+		print('Exception caught: '+str(e))
 		pass
-	
+
 	return BoolForDescenancyIfSameRoot
 
 def get_similar_word(word):
@@ -166,9 +167,9 @@ def get_similar_word(word):
 							response = agreement.inflect(frozenset(str(parsed.tag).split(' ')[1].split(','))).word
 							break
 				if response == "":
-					sinonymsdict = synonims(base)
-					if synonimsdict is not None:
-						for entity in sinonymsdict:
+					synonymsdict = synonims(base)
+					if synonymsdict is not None:
+						for entity in synonymsdict:
 							if re.search(r'[^\w-]',entity):
 								continue
 							agreement = grammar_matches(base,entity)
@@ -178,11 +179,11 @@ def get_similar_word(word):
 					if response == "":
 						i = 0
 						Dictionary = makedict()
-						while i<len(Dictionary)-1:
+						while i<200:
 							used_ids = []
-							next_id = random.randbetween(0,len(Dictionary)-1)
+							next_id = randint(0,len(Dictionary)-1)
 							while next_id in used_ids:
-								next_id = random.randbetween(0,len(Dictionary)-1)
+								next_id = randint(0,len(Dictionary)-1)
 							entity = re.sub(r'\W','',Dictionary[next_id])
 							if re.search(r'[^\w-]',entity):
 								continue
@@ -193,7 +194,9 @@ def get_similar_word(word):
 								break
 							used_ids.append(next_id)
 							i+=1
-	
+						if response == "":
+						    response = word
+
 	if len(cases)<len(response):
 		C = True
 		for el in cases:
@@ -229,13 +232,13 @@ def get_similar_word(word):
 							break
 		if len(cases) != len(response):
 			cases = [False for letter in response]
-		
+
 	for i in range(len(response)):
 		if cases[i]:
 			similar += response[i].upper()
 		else:
 			similar += response[i].lower()
-	
+
 	return similar
 
 def get_similar_text(textstring):
