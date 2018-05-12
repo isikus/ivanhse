@@ -31,7 +31,16 @@ def webhook():
     if flask.request.headers.get('content-type') == 'application/json':
         json_string = flask.request.get_data().decode('utf-8')
         update = telebot.types.Update.de_json(json_string)
-        bot.process_new_updates([update])
+        try:
+            webhook_info = bot.get_webhook_info()
+            if webhook_info.pending_update_count > 1:
+                print('Evaded unwanted update(s): '+str(webhook_info.pending_update_count))
+                return ''
+            else:
+                bot.process_new_updates([update])
+        except Exception as e:
+            print (str(e),'occured')
+            pass
         return ''
     else:
         flask.abort(403)
