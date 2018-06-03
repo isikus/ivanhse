@@ -1,0 +1,1 @@
+Использованная модель: http://rusvectores.org/static/models/araneum_upos_skipgram_600_2_2017.bin.gz
