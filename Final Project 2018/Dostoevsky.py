@@ -36,3 +36,6 @@ def generate_answer(w):
             obj = json.load(injson)
             m = {literal_eval(k):v for k, v in obj.items()}
     answer = generate_sentence(m,w)
+    print(answer)
+    return answer
+
